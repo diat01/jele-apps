@@ -10,13 +10,9 @@ use App\Http\Resources\AuthResource;
 
 class AuthController extends Controller
 {
-    public function __construct(
-        private readonly CreateUserAction $createUserAction
-    ) {}
-
     public function register(RegistrationRequest $request): AuthResource
     {
-        $user = $this->createUserAction->execute(
+        $user = app(CreateUserAction::class)->execute(
             $request->email,
             $request->password,
             GenderEnum::from($request->gender)
@@ -24,7 +20,7 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return new AuthResource([
+        return AuthResource::make([
             'user' => $user,
             'token' => $token,
         ]);
