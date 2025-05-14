@@ -12,8 +12,7 @@ class AuthController extends Controller
 {
     public function __construct(
         private readonly CreateUserAction $createUserAction
-    ) {
-    }
+    ) {}
 
     public function register(RegistrationRequest $request): AuthResource
     {
