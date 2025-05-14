@@ -121,6 +121,11 @@ Accept: application/json
 }
 ```
 
+## Скриншоты
+
+![Postman Регистрация](docs/screenshots/register.png)
+![Postman Профиль](docs/screenshots/profile.png)
+
 ## Тестирование
 
 Для тестирования API используйте Postman коллекцию:  
