@@ -1,66 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel API Проект
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Этот проект представляет собой пример разработки API с использованием Laravel 12. Включает endpoints для регистрации
+пользователей и управления профилем.
 
-## About Laravel
+## Возможности
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Регистрация пользователей (email, password, gender)
+- Информация профиля пользователя
+- API аутентификация через Sanctum
+- Форматирование данных через Laravel Resources
+- Использование Enum (для поля gender)
+- Автоматические JSON ответы через Middleware
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Установка
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Клонируйте проект:
+   ```bash
+   git clone https://github.com/diat01/jele-apps
+   cd jele-apps
+   ```
 
-## Learning Laravel
+2. Установите зависимости:
+   ```bash
+   composer install
+   ```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. Настройте переменные окружения:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4. Настройте базу данных и выполните миграции:
+   ```bash
+   php artisan migrate
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## API Endpoints
 
-### Premium Partners
+### Регистрация пользователя
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+**URL:** `POST /api/register`
 
-## Contributing
+**Request:**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```json
+{
+    "email": "test@example.com",
+    "password": "password123",
+    "gender": "male"
+}
+```
 
-## Code of Conduct
+**Response:**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```json
+{
+    "data": {
+        "user": {
+            "id": 1,
+            "email": "test@example.com",
+            "gender": "male",
+            "created_at": "2023-12-01T12:00:00.000000Z"
+        },
+        "token": "1|abcdef123456"
+    }
+}
+```
 
-## Security Vulnerabilities
+### Информация профиля
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**URL:** `GET /api/profile`
 
-## License
+**Headers:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+Authorization: Bearer [token]
+Accept: application/json
+```
+
+**Response:**
+
+```json
+{
+    "data": {
+        "id": 1,
+        "email": "test@example.com",
+        "gender": "male",
+        "created_at": "2023-12-01T12:00:00.000000Z"
+    }
+}
+```
+
+## Используемые технологии
+
+- Laravel 12
+- Laravel Sanctum (API аутентификация)
+- PHP 8.2+
+- MySQL/PostgreSQL/SQLite
+
+## Как внести вклад
+
+1. Форкните репозиторий (<https://github.com/diat01/jele-apps/fork>)
+2. Создайте новую ветку (`git checkout -b feature/fooBar`)
+3. Зафиксируйте изменения (`git commit -am 'Add some fooBar'`)
+4. Запушьте изменения (`git push origin feature/fooBar`)
+5. Создайте Pull Request
+
+## Скриншоты
+
+![Postman Регистрация](docs/screenshots/register.png)
+![Postman Профиль](docs/screenshots/profile.png)
+
+## Postman коллекция
+
+Для тестирования API вы можете импортировать Postman коллекцию:
+[Импортировать коллекцию Postman](https://app.getpostman.com/join-team?invite_code=37f88adedda0c3d1b3cd0bc76e37545e3d11a098a60521224d6698108125a971&target_code=fa0bc17ad3a11c1d9aee0a0166808aa2)
+
+## Контакты
+
+Автор проекта: Atageldi Didarov - didarov.atageldi@gmail.com
+
+Ссылка на проект: [https://github.com/diat01/jele-apps](https://github.com/diat01/jele-apps)
